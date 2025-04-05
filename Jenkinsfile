@@ -2,21 +2,21 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'nginx'
+        IMAGE_NAME = 'dumalaramesh/rameshdumala'
         DOCKER_CREDENTIALS_ID = 'dockerhub_credentials'
     }
 
     stages {
         stage('Clone Repo') {
             steps {
-                git ''https://github.com/betawins/multi-stage-example.git”
+                git 'https://github.com/RameshDumala1/ramesh.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("${DOCKER_IMAGE}:latest")
+                    dockerImage = docker.build("${IMAGE_NAME}:latest")
                 }
             }
         }
@@ -34,10 +34,10 @@ pipeline {
 
     post {
         success {
-            echo "Docker image pushed successfully."
+            echo "✅ Docker image pushed successfully to DockerHub!"
         }
         failure {
-            echo "Something went wrong. Check logs."
+            echo "❌ Build failed. Check the Jenkins logs for more details."
         }
     }
 }
