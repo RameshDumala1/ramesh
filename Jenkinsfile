@@ -9,14 +9,16 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git 'https://github.com/RameshDumala1/ramesh.git'
+                git branch: 'main', url: 'https://github.com/RameshDumala1/ramesh.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("${IMAGE_NAME}:latest")
+                    def dockerImage = docker.build("${IMAGE_NAME}:latest")
+                    // Save the image reference for use in the next stage
+                    env.BUILT_IMAGE = dockerImage.id
                 }
             }
         }
@@ -24,6 +26,7 @@ pipeline {
         stage('Push to DockerHub') {
             steps {
                 script {
+                    def dockerImage = docker.image("${IMAGE_NAME}:latest")
                     docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_CREDENTIALS_ID}") {
                         dockerImage.push("latest")
                     }
