@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'dumalaramesh/rameshdumala'
-        DOCKER_CREDENTIALS_ID = 'dockerhub_credentials'
+        DOCKER_CREDENTIALS_ID = 'dockerhub'
     }
 
     stages {
